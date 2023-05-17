@@ -17,7 +17,7 @@ exports.createRenouvellement = async (obj) => {
   const { cin, Matricule, Qualification, Discription, Renouvellement } = obj;
   try {
     const pool = await getConnection();
-
+    console.log(obj);
     await pool
       .request()
       .input("cin", getSql().VarChar, cin)

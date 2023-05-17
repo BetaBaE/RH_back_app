@@ -59,12 +59,12 @@ exports.RH_Renouvellement = {
   getAll: `SELECT
    m.[id]
   ,m.[Matricule]
-  ,m.[Qualification]
+  ,r.[Qualification]
   ,[TypeContrat]
   ,[DateEmbauche]
   ,[DateFin]
-  ,[Discription]
-  ,r.[Renouvellement]
+  ,[Disciption] as Discription
+  ,r.[Renouvellement] 
   ,r.DateInsertion
 FROM [ATNER_DW].[dbo].[RH_Members] m,
 [ATNER_DW].[dbo].[RH_Renouvellement] r
@@ -73,12 +73,12 @@ where m.id = r.cin
   getCount: "select count(*) as count from [dbo].[RH_Renouvellement]",
 
   insert: `INSERT INTO [dbo].[RH_Renouvellement]
-          ([cin]
+          ( [cin]
            ,[Matricule]
            ,[Renouvellement]
            ,[Disciption]
            ,[Qualification]
-           ,)
+           )
      VALUES
            (@cin
            ,@Matricule
@@ -86,6 +86,7 @@ where m.id = r.cin
            ,@Discription
            ,@Qualification)`,
 };
+
 exports.RH_Assurances = {
   getAll: `SELECT r.id
   ,r.cin
