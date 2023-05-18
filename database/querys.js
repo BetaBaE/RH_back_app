@@ -88,10 +88,12 @@ where m.id = r.cin
 };
 
 exports.RH_Assurances = {
-  getAll: `SELECT r.id
+  getAll: `SELECT 
+  r.id
   ,r.cin
   ,m.[Matricule]
   ,m.[NomComplet]
+  ,Qualification
   ,m.[DateEmbauche]
   ,m.[DateFin]
 ,r.dateAssurance

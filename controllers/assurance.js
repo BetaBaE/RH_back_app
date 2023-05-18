@@ -1,12 +1,11 @@
 const { getConnection, getSql } = require("../database/connection");
 const { RH_Assurances } = require("../database/querys");
 
-
 exports.getAssurancesCount = async (req, res, next) => {
   try {
     const pool = await getConnection();
     const result = await pool.request().query(RH_Assurances.getCount);
-    console.log("record set",result.recordset[0]);
+    console.log("record set", result.recordset[0]);
     req.count = result.recordset[0].count;
 
     next();
@@ -15,7 +14,6 @@ exports.getAssurancesCount = async (req, res, next) => {
     res.send(error.message);
   }
 };
-
 
 exports.getAssurances = async (req, res) => {
   try {
@@ -30,18 +28,18 @@ exports.getAssurances = async (req, res) => {
     // if (filter.id) {
     //   queryFilter += ` and LOWER(m.id) like(LOWER('%${filter.id}%'))`;
     // }
-    // if (filter.cin) {
-    //   queryFilter += ` and LOWER(Matricule) like(LOWER('%${filter.cin}%'))`;
-    // }
-    // if (filter.NomComplet) {
-    //   queryFilter += ` and LOWER(NomComplet) like(LOWER('%${filter.NomComplet}%'))`;
-    // }
-    // if (filter.Qualification) {
-    //   queryFilter += ` and Qualification = ${filter.Qualification}`;
-    // }
-    // if (filter.TypeContrat) {
-    //   queryFilter += ` and TypeContrat = '${filter.TypeContrat}'`;
-    // }
+    if (filter.cin) {
+      queryFilter += ` and LOWER(Matricule) like(LOWER('%${filter.cin}%'))`;
+    }
+    if (filter.NomComplet) {
+      queryFilter += ` and LOWER(NomComplet) like(LOWER('%${filter.NomComplet}%'))`;
+    }
+    if (filter.Qualification) {
+      queryFilter += ` and Qualification = ${filter.Qualification}`;
+    }
+    if (filter.assure) {
+      queryFilter += ` and assure = '${filter.assure}'`;
+    }
     // if (filter.SituationActif) {
     //   queryFilter += ` and SituationActif = '${filter.SituationActif}'`;
     // }
@@ -54,7 +52,7 @@ exports.getAssurances = async (req, res) => {
     ${queryFilter}
     Order by ${sort[0]} ${sort[1]} 
     OFFSET ${range[0]} ROWS FETCH NEXT ${range[1] + 1 - range[0]} ROWS ONLY`);
-  
+
     res.set(
       "Content-Range",
       `assurances ${range[0]}-${range[1] + 1 - range[0]}/${req.count}`
