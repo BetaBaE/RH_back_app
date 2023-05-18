@@ -1,10 +1,26 @@
 const { getConnection, getSql } = require("../database/connection");
 const { RH_Assurances } = require("../database/querys");
 
+
+exports.getAssurancesCount = async (req, res, next) => {
+  try {
+    const pool = await getConnection();
+    const result = await pool.request().query(RH_Assurances.getCount);
+    console.log("record set",result.recordset[0]);
+    req.count = result.recordset[0].count;
+
+    next();
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
+
 exports.getAssurances = async (req, res) => {
   try {
     let range = req.query.range || "[0,9]";
-    let sort = req.query.sort || '["DateFin" , "ASC"]';
+    let sort = req.query.sort || '["id" , "ASC"]';
     let filter = req.query.filter || "{}";
     range = JSON.parse(range);
     sort = JSON.parse(sort);
@@ -34,8 +50,11 @@ exports.getAssurances = async (req, res) => {
     // }
     console.log(queryFilter);
     const pool = await getConnection();
-    const result = await pool.request().query(`${RH_Assurances.getAll}`);
-    console.log(req.count);
+    const result = await pool.request().query(`${RH_Assurances.getAll} 
+    ${queryFilter}
+    Order by ${sort[0]} ${sort[1]} 
+    OFFSET ${range[0]} ROWS FETCH NEXT ${range[1] + 1 - range[0]} ROWS ONLY`);
+  
     res.set(
       "Content-Range",
       `assurances ${range[0]}-${range[1] + 1 - range[0]}/${req.count}`

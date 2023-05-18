@@ -98,9 +98,8 @@ exports.RH_Assurances = {
 ,r.assure
 FROM [ATNER_DW].[dbo].[RH_Members]m , RH_Assurances r
 where r.cin = m.id`,
-  getCount: `SELECT count(*)
- FROM [dbo].[RH_Assurances] a, RH_Members m
- group by cin`,
+  getCount: `SELECT count(*) as count 
+ FROM [dbo].[RH_Assurances] `,
   getAssurancesById:
     "SELECT * FROM [ATNER_DW].[dbo].[RH_Assurances] Where id = @id",
   insert: `INSERT INTO [dbo].[RH_Assurances]
