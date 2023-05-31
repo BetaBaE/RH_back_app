@@ -25,11 +25,11 @@ exports.getAssurances = async (req, res) => {
     filter = JSON.parse(filter);
     console.log(filter);
     let queryFilter = "";
-    // if (filter.id) {
-    //   queryFilter += ` and LOWER(m.id) like(LOWER('%${filter.id}%'))`;
+    // if (filter.Matricule) {
+    //   queryFilter += ` and LOWER(m.Matricule) like(LOWER('%${filter.Matricule}%'))`;
     // }
     if (filter.cin) {
-      queryFilter += ` and LOWER(Matricule) like(LOWER('%${filter.cin}%'))`;
+      queryFilter += ` and LOWER(cin) like(LOWER('%${filter.cin}%'))`;
     }
     if (filter.NomComplet) {
       queryFilter += ` and LOWER(NomComplet) like(LOWER('%${filter.NomComplet}%'))`;

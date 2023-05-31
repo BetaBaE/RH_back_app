@@ -59,8 +59,8 @@ exports.getRenouvellement = async (req, res) => {
     if (filter.DateInsertion) {
       queryFilter += ` and LOWER(r.DateInsertion) like(LOWER('%${filter.DateInsertion}%'))`;
     }
-    if (filter.Disciption) {
-      queryFilter += ` and LOWER(Discription) like(LOWER('%${filter.Disciption}%'))`;
+    if (filter.Discription) {
+      queryFilter += ` and LOWER(Discription) like(LOWER('%${filter.Discription}%'))`;
     }
     console.log(queryFilter);
     const pool = await getConnection();

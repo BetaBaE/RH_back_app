@@ -57,7 +57,8 @@ exports.RH_Qualification = {
 
 exports.RH_Renouvellement = {
   getAll: `SELECT
-   m.[id]
+  r.id
+  , m.[id] as cin
   ,m.[Matricule]
   ,r.[Qualification]
   ,[TypeContrat]

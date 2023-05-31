@@ -46,7 +46,7 @@ exports.getMembers = async (req, res) => {
     if (filter.Discription) {
       queryFilter += ` and Discription like(LOWER('%${filter.Discription}%'))`;
     }
-  
+
     const pool = await getConnection();
     const result = await pool.request().query(
       `${RH_Members.getAllMembers} ${queryFilter} Order by ${sort[0]} ${sort[1]}
@@ -97,7 +97,6 @@ exports.createNewMember = async (req, res) => {
       .input("Renouvellement", getSql().Date, Renouvellement)
       .query(RH_Members.addNewMember);
 
-
     await createNewAssurance(assurance, id, dateAssurance);
 
     res.json({
@@ -139,7 +138,7 @@ exports.getMemberById = async (req, res) => {
 const getMemberBeforeUpdate = async (id) => {
   try {
     const pool = await getConnection();
-   
+
     const result = await pool
       .request()
       .input("id", getSql().VarChar, id)
@@ -154,7 +153,7 @@ const getMemberBeforeUpdate = async (id) => {
 exports.deleteMember = async (req, res) => {
   try {
     const pool = await getConnection();
-  
+
     pool
       .request()
       .input("id", getSql().VarChar, req.params.id)
@@ -194,22 +193,21 @@ exports.updateMember = async (req, res) => {
 
   try {
     const pool = await getConnection();
-    let dateRenouvellement = null
-    if(Renouvellement != null){
-       dateRenouvellement = new Date(Renouvellement)
+    let dateRenouvellement = null;
+
+    if (Renouvellement != null) {
+      dateRenouvellement = new Date(Renouvellement);
     }
     let obj = await getMemberBeforeUpdate(req.params.id);
 
-    console.log(typeof obj.Renouvellement,typeof dateRenouvellement);
-    console.log( obj.Renouvellement, dateRenouvellement);
+    console.log(typeof obj.Renouvellement, typeof dateRenouvellement);
+    console.log(obj.Renouvellement, dateRenouvellement);
 
-    // if ( obj.Renouvellement.toString().split("T")[0] != dateRenouvellement.toString().split("T")[0] ) {
-    if ( obj.Renouvellement.getTime() != dateRenouvellement.getTime() ) {
-
+    if (obj.Renouvellement != dateRenouvellement) {
       obj.cin = obj.id;
-      obj.Discription = Discription
-      obj.Qualification = Qualification
-      obj.Renouvellement = dateRenouvellement
+      obj.Discription = Discription;
+      obj.Qualification = Qualification;
+      obj.Renouvellement = dateRenouvellement;
 
       await createRenouvellement(obj);
     }
@@ -229,19 +227,18 @@ exports.updateMember = async (req, res) => {
 
       .query(RH_Members.updateMemberById);
 
-
-      res.json({
-        id,
-        Matricule,
-        NomComplet,
-        Qualification,
-        TypeContrat,
-        DateEmbauche,
-        DateFin,
-        Discription,
-        SituationActif,
-        Renouvellement,
-      });
+    res.json({
+      id,
+      Matricule,
+      NomComplet,
+      Qualification,
+      TypeContrat,
+      DateEmbauche,
+      DateFin,
+      Discription,
+      SituationActif,
+      Renouvellement,
+    });
   } catch (error) {
     res.status(500);
     res.send(error.message);
