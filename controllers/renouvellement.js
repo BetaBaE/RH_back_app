@@ -50,12 +50,6 @@ exports.getRenouvellement = async (req, res) => {
     if (filter.Qualification) {
       queryFilter += ` and m.[Qualification] = ${filter.Qualification}`;
     }
-    // if (filter.TypeContrat) {
-    //   queryFilter += ` and TypeContrat = '${filter.TypeContrat}'`;
-    // }
-    // if (filter.SituationActif) {
-    //   queryFilter += ` and SituationActif = '${filter.SituationActif}'`;
-    // }
     if (filter.DateInsertion) {
       queryFilter += ` and LOWER(r.DateInsertion) like(LOWER('%${filter.DateInsertion}%'))`;
     }

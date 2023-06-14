@@ -84,7 +84,8 @@ where m.id = r.cin
            ,@Matricule
            ,@Renouvellement
            ,@Discription
-           ,@Qualification)`,
+           ,@Qualification
+           )`,
 };
 
 exports.RH_Assurances = {
