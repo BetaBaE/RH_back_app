@@ -112,3 +112,29 @@ VALUES  (@assure,@cin,@dateAssurance)`,
   update: `UPDATE [dbo].[RH_Assurances] SET [assure] = @assure, [dateAssurance] = @dateAssurance
           WHERE id = @id  `,
 };
+
+exports.Users = {
+  create: `INSERT INTO [dbo].[RH_USER]
+            ([fullname]
+            ,[username]
+            ,[Role]
+            ,[hached_password]
+            ,[salt])
+           VALUES
+            (@fullname
+            ,@username
+            ,@Role
+            ,@hached_password
+            ,@salt)`,
+
+  update: `UPDATE [dbo].[RH_USER]
+    SET [fullname] = @fullname
+      ,[username] = @username
+      ,[Role] = @Role
+      ,[isActivated] = @isActivated
+    WHERE id = @id`,
+  getCount: `SELECT COUNT(*) as count FROM [dbo].[RH_USER]`,
+  getAll: `SELECT * FROM [dbo].[RH_USER] where 1=1 `,
+  getOne: `SELECT * FROM [dbo].[RH_USER] WHERE id = @id`,
+  getOneUsename: `SELECT * FROM [dbo].[RH_USER] WHERE username = @username`,
+};
