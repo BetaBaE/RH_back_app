@@ -68,7 +68,7 @@ exports.RH_Renouvellement = {
  ,[Disciption] as Discription
  ,r.[Renouvellement] 
  ,r.DateInsertion
-FROM [ATNER_DW].[dbo].[RH_Members] m,
+FROM [ATNER_DW].[dbo].[RH_Members] m, 
 [ATNER_DW].[dbo].[RH_Renouvellement] r
 where m.id = r.cin`,
   getCount: "select count(*) as count from [dbo].[RH_Renouvellement]",
