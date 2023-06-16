@@ -28,11 +28,14 @@ const Members = require("./routes/members");
 const Qualification = require("./routes/qualification");
 const Renouvellement = require("./routes/renouvellement");
 const Assurance = require("./routes/assurance");
+const User = require("./routes/users");
 
 app.use("/", Members);
 app.use("/", Qualification);
 app.use("/", Renouvellement);
 app.use("/", Assurance);
+app.use("/", User);
+
 
 const port = process.env.PORT || 8081;
 

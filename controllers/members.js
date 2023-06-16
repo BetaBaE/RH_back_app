@@ -194,7 +194,6 @@ exports.updateMember = async (req, res) => {
   try {
     const pool = await getConnection();
     let dateRenouvellement = null;
-
     if (Renouvellement != null) {
       dateRenouvellement = new Date(Renouvellement);
     }
@@ -203,7 +202,8 @@ exports.updateMember = async (req, res) => {
     console.log(typeof obj.Renouvellement, typeof dateRenouvellement);
     console.log(obj.Renouvellement, dateRenouvellement);
 
-    if (obj.Renouvellement != dateRenouvellement) {
+    // if ( obj.Renouvellement.toString().split("T")[0] != dateRenouvellement.toString().split("T")[0] ) {
+    if (obj.Renouvellement.getTime() != dateRenouvellement.getTime()) {
       obj.cin = obj.id;
       obj.Discription = Discription;
       obj.Qualification = Qualification;
@@ -220,7 +220,7 @@ exports.updateMember = async (req, res) => {
       .input("Qualification", getSql().Int, Qualification)
       .input("TypeContrat", getSql().VarChar, TypeContrat)
       .input("DateEmbauche", getSql().Date, DateEmbauche)
-      .input("DateFin", getSql().Date, DateFin)
+      .input("DateFin", getSql().Date, obj.DateFin)
       .input("Discription", getSql().VarChar, Discription)
       .input("SituationActif", getSql().VarChar, SituationActif)
       .input("Renouvellement", getSql().Date, Renouvellement)

@@ -56,21 +56,21 @@ exports.RH_Qualification = {
 };
 
 exports.RH_Renouvellement = {
-  getAll: `SELECT
-  r.id
-  , m.[id] as cin
-  ,m.[Matricule]
-  ,r.[Qualification]
-  ,[TypeContrat]
-  ,[DateEmbauche]
-  ,[DateFin]
-  ,[Disciption] as Discription
-  ,r.[Renouvellement] 
-  ,r.DateInsertion
+  getAll: `
+  SELECT
+   r.id
+  ,m.[id] as cin
+ ,m.[Matricule]
+ ,r.[Qualification]
+ ,[TypeContrat]
+ ,[DateEmbauche]
+ ,[DateFin]
+ ,[Disciption] as Discription
+ ,r.[Renouvellement] 
+ ,r.DateInsertion
 FROM [ATNER_DW].[dbo].[RH_Members] m,
 [ATNER_DW].[dbo].[RH_Renouvellement] r
-where m.id = r.cin
-`,
+where m.id = r.cin`,
   getCount: "select count(*) as count from [dbo].[RH_Renouvellement]",
 
   insert: `INSERT INTO [dbo].[RH_Renouvellement]
@@ -85,7 +85,8 @@ where m.id = r.cin
            ,@Matricule
            ,@Renouvellement
            ,@Discription
-           ,@Qualification)`,
+           ,@Qualification
+           )`,
 };
 
 exports.RH_Assurances = {
@@ -114,4 +115,30 @@ VALUES  (@assure,@cin,@dateAssurance)`,
   delete: "DELETE FROM [ATNER_DW].[dbo].[RH_Assurances] Where Id = @id",
   update: `UPDATE [dbo].[RH_Assurances] SET [assure] = @assure, [dateAssurance] = @dateAssurance
           WHERE id = @id  `,
+};
+
+exports.Users = {
+  create: `INSERT INTO [dbo].[RH_USER]
+            ([fullname]
+            ,[username]
+            ,[Role]
+            ,[hached_password]
+            ,[salt])
+           VALUES
+            (@fullname
+            ,@username
+            ,@Role
+            ,@hached_password
+            ,@salt)`,
+
+  update: `UPDATE [dbo].[RH_USER]
+    SET [fullname] = @fullname
+      ,[username] = @username
+      ,[Role] = @Role
+      ,[isActivated] = @isActivated
+    WHERE id = @id`,
+  getCount: `SELECT COUNT(*) as count FROM [dbo].[RH_USER]`,
+  getAll: `SELECT * FROM [dbo].[RH_USER] where 1=1 `,
+  getOne: `SELECT * FROM [dbo].[RH_USER] WHERE id = @id`,
+  getOneUsename: `SELECT * FROM [dbo].[RH_USER] WHERE username = @username`,
 };
