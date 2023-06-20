@@ -203,7 +203,7 @@ exports.updateMember = async (req, res) => {
     console.log(obj.Renouvellement, dateRenouvellement);
 
     // if ( obj.Renouvellement.toString().split("T")[0] != dateRenouvellement.toString().split("T")[0] ) {
-    if (obj.Renouvellement.getTime() != dateRenouvellement.getTime()) {
+    if (obj.Renouvellement != dateRenouvellement) {
       obj.cin = obj.id;
       obj.Discription = Discription;
       obj.Qualification = Qualification;
