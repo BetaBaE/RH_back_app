@@ -1,4 +1,5 @@
-﻿const { getConnection, getSql } = require("../database/connection");
+﻿const { get } = require("lodash");
+const { getConnection, getSql } = require("../database/connection");
 const { RH_Members } = require("../database/querys");
 const { createNewAssurance } = require("./assurance");
 const { createRenouvellement } = require("./renouvellement");
@@ -78,6 +79,7 @@ exports.createNewMember = async (req, res) => {
     assurance,
     dateAssurance,
     Renouvellement,
+    datefinRenouvellement,
   } = req.body;
 
   try {
@@ -95,6 +97,7 @@ exports.createNewMember = async (req, res) => {
       .input("Discription", getSql().VarChar, Discription)
       .input("SituationActif", getSql().VarChar, SituationActif)
       .input("Renouvellement", getSql().Date, Renouvellement)
+      .input("datefinRenouvellement", getSql().Date, datefinRenouvellement)
       .query(RH_Members.addNewMember);
 
     await createNewAssurance(assurance, id, dateAssurance);
@@ -113,6 +116,7 @@ exports.createNewMember = async (req, res) => {
       assurance,
       dateAssurance,
       Renouvellement,
+      datefinRenouvellement,
     });
   } catch (error) {
     res.status(500);
@@ -177,6 +181,7 @@ exports.updateMember = async (req, res) => {
     Discription,
     SituationActif,
     Renouvellement,
+    datefinRenouvellement,
   } = req.body;
   if (
     id == null ||
@@ -186,28 +191,34 @@ exports.updateMember = async (req, res) => {
     TypeContrat == null ||
     DateEmbauche == null ||
     DateFin == null ||
-    SituationActif == null
+    SituationActif == null ||
+    datefinRenouvellement == null
   ) {
     return res.status(400).json({ error: "all field is required" });
   }
 
   try {
     const pool = await getConnection();
+
     let dateRenouvellement = null;
     if (Renouvellement != null) {
       dateRenouvellement = new Date(Renouvellement);
     }
+
     let obj = await getMemberBeforeUpdate(req.params.id);
 
     console.log(typeof obj.Renouvellement, typeof dateRenouvellement);
+
     console.log(obj.Renouvellement, dateRenouvellement);
+    // console.log(obj.DateFin, DateFin);
 
     // if ( obj.Renouvellement.toString().split("T")[0] != dateRenouvellement.toString().split("T")[0] ) {
-    if (obj.Renouvellement != dateRenouvellement) {
+    if (obj.Renouvellement.getTime() != dateRenouvellement.getTime()) {
       obj.cin = obj.id;
       obj.Discription = Discription;
       obj.Qualification = Qualification;
       obj.Renouvellement = dateRenouvellement;
+      obj.finRenouvellement = datefinRenouvellement;
 
       await createRenouvellement(obj);
     }
@@ -224,6 +235,7 @@ exports.updateMember = async (req, res) => {
       .input("Discription", getSql().VarChar, Discription)
       .input("SituationActif", getSql().VarChar, SituationActif)
       .input("Renouvellement", getSql().Date, Renouvellement)
+      .input("datefinRenouvellement", getSql().Date, datefinRenouvellement)
 
       .query(RH_Members.updateMemberById);
 
@@ -238,6 +250,7 @@ exports.updateMember = async (req, res) => {
       Discription,
       SituationActif,
       Renouvellement,
+      datefinRenouvellement,
     });
   } catch (error) {
     res.status(500);

@@ -14,7 +14,14 @@ exports.getRenouvellementCount = async (req, res, next) => {
 };
 
 exports.createRenouvellement = async (obj) => {
-  const { cin, Matricule, Qualification, Discription, Renouvellement } = obj;
+  const {
+    cin,
+    Matricule,
+    Qualification,
+    Discription,
+    Renouvellement,
+    datefinRenouvellement,
+  } = obj;
   try {
     const pool = await getConnection();
     console.log(obj);
@@ -25,6 +32,7 @@ exports.createRenouvellement = async (obj) => {
       .input("Qualification", getSql().Int, Qualification)
       .input("Discription", getSql().VarChar, Discription)
       .input("Renouvellement", getSql().Date, Renouvellement)
+      .input("datefinRenouvellement", getSql().Date, datefinRenouvellement)
       .query(RH_Renouvellement.insert);
   } catch (error) {
     console.log(error);

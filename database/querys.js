@@ -11,7 +11,8 @@
            ,[DateFin]
            ,[Discription]
            ,[SituationActif]
-           ,[Renouvellement])
+           ,[Renouvellement]
+           ,datefinRenouvellement)
      VALUES
            (@Id
            ,@Matricule
@@ -22,7 +23,8 @@
            ,@DateFin
            ,@Discription
            ,@SituationActif
-           ,@Renouvellement)`,
+           ,@Renouvellement
+           ,@datefinRenouvellement)`,
   deleteMembers: "DELETE FROM [dbo].[RH_Members] Where Id = @id",
   updateMemberById: `UPDATE [dbo].[RH_Members]
    SET [Matricule] = @Matricule
@@ -34,6 +36,7 @@
       ,[Discription] = @Discription
       ,[SituationActif] =@SituationActif
       ,[Renouvellement] =@Renouvellement
+      ,[datefinRenouvellement] =@datefinRenouvellement
 
       WHERE Id = @id`,
   getMemberCount: "select count(*) as count from [dbo].[RH_Members]",
@@ -58,8 +61,8 @@ exports.RH_Qualification = {
 exports.RH_Renouvellement = {
   getAll: `
   SELECT 
-   r.id
-  ,m.[id] as cin
+  r.id
+ ,m.[id] as cin
  ,m.[Matricule]
  ,r.[Qualification]
  ,[TypeContrat]
@@ -68,8 +71,9 @@ exports.RH_Renouvellement = {
  ,[Disciption] as Discription
  ,r.[Renouvellement] 
  ,r.DateInsertion
-FROM [ATNER_DW].[dbo].[RH_Members] m, 
-[ATNER_DW].[dbo].[RH_Renouvellement] r
+ ,m.datefinRenouvellement
+FROM [dbo].[RH_Members] m, 
+[dbo].[RH_Renouvellement] r
 where m.id = r.cin`,
   getCount: "select count(*) as count from [dbo].[RH_Renouvellement]",
 
@@ -79,6 +83,7 @@ where m.id = r.cin`,
            ,[Renouvellement]
            ,[Disciption]
            ,[Qualification]
+           ,datefinRenouvellement
            )
      VALUES
            (@cin
@@ -86,6 +91,7 @@ where m.id = r.cin`,
            ,@Renouvellement
            ,@Discription
            ,@Qualification
+           ,@datefinRenouvellement
            )`,
 };
 
@@ -104,8 +110,7 @@ FROM [ATNER_DW].[dbo].[RH_Members]m , RH_Assurances r
 where r.cin = m.id`,
   getCount: `SELECT count(*) as count 
  FROM [dbo].[RH_Assurances] `,
-  getAssurancesById:
-    "SELECT * FROM [ATNER_DW].[dbo].[RH_Assurances] Where id = @id",
+  getAssurancesById: "SELECT * FROM [dbo].[RH_Assurances] Where id = @id",
   insert: `INSERT INTO [dbo].[RH_Assurances]
   ([assure]
   ,[cin]
