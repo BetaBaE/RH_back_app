@@ -1,5 +1,19 @@
 ﻿exports.RH_Members = {
-  getAllMembers: `select * from [dbo].[RH_Members] where 1=1`,
+  getAllMembers: `
+  SELECT  m.[id]
+  ,[Matricule]
+  ,[NomComplet]
+  ,q.libelle as   Qualification
+  ,[TypeContrat]
+  ,[DateEmbauche]
+  ,[DateFin]
+  ,[Discription]
+  ,[SituationActif]
+  ,[Renouvellement]
+  ,[datefinRenouvellement]
+FROM [ATNER_DW].[dbo].[RH_Members] m , RH_Qualifications q
+where m.Qualification = q.id
+and 1 = 1`,
   getMemberById: "SELECT * FROM [dbo].[RH_Members] Where id = @id",
   addNewMember: `INSERT INTO [dbo].[RH_Members]
            ([Id]
