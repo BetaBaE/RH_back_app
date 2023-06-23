@@ -52,6 +52,9 @@ exports.getRenouvellement = async (req, res) => {
     if (filter.id) {
       queryFilter += ` and LOWER(m.[id]) like(LOWER('%${filter.id}%'))`;
     }
+    if (filter.NomComplet) {
+      queryFilter += ` and LOWER(m.[NomComplet]) like(LOWER('%${filter.NomComplet}%'))`;
+    }
     if (filter.Matricule) {
       queryFilter += ` and LOWER(m.[Matricule]) like(LOWER('%${filter.Matricule}%'))`;
     }

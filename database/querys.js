@@ -11,7 +11,7 @@
   ,[SituationActif]
   ,[Renouvellement]
   ,[datefinRenouvellement]
-FROM [ATNER_DW].[dbo].[RH_Members] m , RH_Qualifications q
+FROM [dbo].[RH_Members] m , RH_Qualifications q
 where m.Qualification = q.id
 and 1 = 1`,
   getMemberById: "SELECT * FROM [dbo].[RH_Members] Where id = @id",
@@ -76,6 +76,7 @@ exports.RH_Renouvellement = {
   getAll: `
   SELECT 
   r.id
+  ,m.NomComplet
  ,m.[id] as cin
  ,m.[Matricule]
  ,r.[Qualification]
@@ -120,7 +121,7 @@ exports.RH_Assurances = {
   ,m.[DateFin]
 ,r.dateAssurance
 ,r.assure
-FROM [ATNER_DW].[dbo].[RH_Members]m , RH_Assurances r
+FROM [dbo].[RH_Members]m , RH_Assurances r
 where r.cin = m.id`,
   getCount: `SELECT count(*) as count 
  FROM [dbo].[RH_Assurances] `,
