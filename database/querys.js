@@ -50,7 +50,7 @@ and 1 = 1`,
       ,[Discription] = @Discription
       ,[SituationActif] =@SituationActif
       ,[Renouvellement] =@Renouvellement
-      ,[datefinRenouvellement] =@datefinRenouvellement
+      ,[datefinRenouvellement] = @datefinRenouvellement
 
       WHERE Id = @id`,
   getMemberCount: "select count(*) as count from [dbo].[RH_Members]",
@@ -86,7 +86,7 @@ exports.RH_Renouvellement = {
  ,[Disciption] as Discription
  ,r.[Renouvellement] 
  ,r.DateInsertion
- ,m.datefinRenouvellement
+ ,r.datefinRenouvellement
 FROM [dbo].[RH_Members] m, 
 [dbo].[RH_Renouvellement] r
 where m.id = r.cin`,

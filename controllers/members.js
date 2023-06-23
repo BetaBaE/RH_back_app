@@ -191,8 +191,7 @@ exports.updateMember = async (req, res) => {
     TypeContrat == null ||
     DateEmbauche == null ||
     DateFin == null ||
-    SituationActif == null ||
-    datefinRenouvellement == null
+    SituationActif == null
   ) {
     return res.status(400).json({ error: "all field is required" });
   }
@@ -200,6 +199,10 @@ exports.updateMember = async (req, res) => {
   try {
     const pool = await getConnection();
 
+    // let finRenouvellement = null;
+    // if (datefinRenouvellement != null) {
+    //   finRenouvellement = new Date(datefinRenouvellement);
+    // }
     let dateRenouvellement = null;
     if (Renouvellement != null) {
       dateRenouvellement = new Date(Renouvellement);
@@ -210,18 +213,41 @@ exports.updateMember = async (req, res) => {
     console.log(typeof obj.Renouvellement, typeof dateRenouvellement);
 
     console.log(obj.Renouvellement, dateRenouvellement);
-    // console.log(obj.DateFin, DateFin);
+    console.log("***", obj.datefinRenouvellement, datefinRenouvellement);
 
     // if ( obj.Renouvellement.toString().split("T")[0] != dateRenouvellement.toString().split("T")[0] ) {
-    if (obj.Renouvellement.getTime() != dateRenouvellement.getTime()) {
-      obj.cin = obj.id;
-      obj.Discription = Discription;
-      obj.Qualification = Qualification;
-      obj.Renouvellement = dateRenouvellement;
-      obj.finRenouvellement = datefinRenouvellement;
+    if (typeof Renouvellement == "string") {
+      if (obj.Renouvellement == null) {
+        obj.cin = obj.id;
+        obj.Discription = Discription;
+        obj.Qualification = Qualification;
+        obj.Renouvellement = dateRenouvellement;
+        obj.datefinRenouvellement = datefinRenouvellement;
+        console.log(obj.Renouvellement);
+        await createRenouvellement(obj);
+      } else if (
+        new Date(Renouvellement).getTime() !=
+        new Date(obj.Renouvellement).getTime()
+      ) {
+        obj.cin = obj.id;
+        obj.Discription = Discription;
+        obj.Qualification = Qualification;
+        obj.Renouvellement = dateRenouvellement;
+        obj.datefinRenouvellement = datefinRenouvellement;
+        console.log(obj.Renouvellement);
 
-      await createRenouvellement(obj);
+        await createRenouvellement(obj);
+      }
     }
+    // if (obj.Renouvellement.getTime() != dateRenouvellement.getTime()) {
+    //   obj.cin = obj.id;
+    //   obj.Discription = Discription;
+    //   obj.Qualification = Qualification;
+    //   obj.Renouvellement = dateRenouvellement;
+    //   obj.finRenouvellement = datefinRenouvellement;
+
+    //   await createRenouvellement(obj);
+    // }
 
     let results = await pool
       .request()
