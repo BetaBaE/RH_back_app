@@ -257,7 +257,7 @@ exports.updateMember = async (req, res) => {
       .input("Qualification", getSql().Int, Qualification)
       .input("TypeContrat", getSql().VarChar, TypeContrat)
       .input("DateEmbauche", getSql().Date, DateEmbauche)
-      .input("DateFin", getSql().Date, obj.DateFin)
+      .input("DateFin", getSql().Date, DateFin)
       .input("Discription", getSql().VarChar, Discription)
       .input("SituationActif", getSql().VarChar, SituationActif)
       .input("Renouvellement", getSql().Date, Renouvellement)
