@@ -190,7 +190,6 @@ exports.updateMember = async (req, res) => {
     Qualification == null ||
     TypeContrat == null ||
     DateEmbauche == null ||
-    DateFin == null ||
     SituationActif == null
   ) {
     return res.status(400).json({ error: "all field is required" });
