@@ -27,7 +27,7 @@ exports.getMembers = async (req, res) => {
 
     let queryFilter = "";
     if (filter.id) {
-      queryFilter += ` and LOWER(id) like(LOWER('%${filter.id}%'))`;
+      queryFilter += ` and LOWER(m.id) like(LOWER('%${filter.id}%'))`;
     }
     if (filter.Matricule) {
       queryFilter += ` and LOWER(Matricule) like(LOWER('%${filter.Matricule}%'))`;
