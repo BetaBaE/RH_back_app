@@ -57,6 +57,21 @@ and 1 = 1`,
   getMemberChart: `select count(*) as count,q.libelle from RH_Members m , RH_Qualifications q
                     where m.Qualification = q.id
                     group by q.libelle`,
+printMembersFicheInsertion : `
+       SELECT m.[id]
+       ,[Matricule]
+       ,[NomComplet]
+       ,q.libelle as Qualification
+       ,[TypeContrat]
+       ,[DateEmbauche]
+       ,[DateFin]
+       ,[Discription]
+       ,[SituationActif]
+       ,[Renouvellement]
+       ,[datefinRenouvellement]
+   FROM [RH_Members] m, RH_Qualifications q 
+   where q.id = m.Qualification
+   AND m.id = @id`
 };
 
 exports.RH_Qualification = {
